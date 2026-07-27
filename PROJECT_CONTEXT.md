@@ -39,14 +39,14 @@ Batch 0 — Project foundation
 
 ## Completed
 
-- [ ] Expo project created
-- [ ] Required dependencies installed
-- [ ] Project directories created
-- [ ] Strict TypeScript enabled
-- [ ] Root navigator created
-- [ ] Task List placeholder created
-- [ ] Add Task placeholder created
-- [ ] Application runs on Android
+- [🫂] Expo project created
+- [🫂 ] Required dependencies installed
+- [🫂] Project directories created
+- [🫂] Strict TypeScript enabled
+- [🫂] Root navigator created
+- [🫂] Task List placeholder created
+- [🫂] Add Task placeholder created
+- [🫂] Application runs on Android
 
 ## Current Files
 
