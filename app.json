@@ -20,6 +20,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Allow Voice Todo to record audio so it can create tasks from your speech."
+        }
+      ]
+    ]
   }
 }
