@@ -1,24 +1,18 @@
 import "dotenv/config";
 
 import cors from "cors";
-import express, {
-  type ErrorRequestHandler,
-} from "express";
+import express, { type ErrorRequestHandler } from "express";
 import multer from "multer";
-import OpenAI, { toFile } from "openai";
 
-const apiKey = process.env.OPENAI_API_KEY;
+const apiKey = process.env.DEEPGRAM_API_KEY;
 
 if (!apiKey) {
-  throw new Error(
-    "OPENAI_API_KEY is missing from server/.env",
-  );
+  throw new Error("DEEPGRAM_API_KEY is missing from server/.env");
 }
 
 const port = Number(process.env.PORT ?? 3000);
 
 const app = express();
-const openai = new OpenAI({ apiKey });
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -33,9 +27,23 @@ app.use(express.json());
 app.get("/health", (_request, response) => {
   response.json({
     status: "ok",
+    provider: "Deepgram",
     message: "Voice Todo server is running",
   });
 });
+
+type DeepgramResponse = {
+  results?: {
+    channels?: Array<{
+      alternatives?: Array<{
+        transcript?: string;
+        confidence?: number;
+      }>;
+    }>;
+  };
+  err_code?: string;
+  err_msg?: string;
+};
 
 app.post(
   "/api/transcribe",
@@ -50,24 +58,49 @@ app.post(
         return;
       }
 
-      const audioFile = await toFile(
-        request.file.buffer,
-        request.file.originalname || "recording.m4a",
+      console.log("Received audio:", {
+        name: request.file.originalname,
+        type: request.file.mimetype,
+        size: request.file.size,
+      });
+
+      const deepgramResponse = await fetch(
+        "https://api.deepgram.com/v1/listen?model=nova-3&smart_format=true&language=en",
         {
-          type:
-            request.file.mimetype ||
-            "audio/m4a",
+          method: "POST",
+          headers: {
+            Authorization: `Token ${apiKey}`,
+            "Content-Type": request.file.mimetype || "audio/mp4",
+          },
+          body: request.file.buffer,
         },
       );
 
-      const transcription =
-        await openai.audio.transcriptions.create({
-          file: audioFile,
-          model: "gpt-4o-mini-transcribe",
+      const result = (await deepgramResponse.json()) as DeepgramResponse;
+
+      if (!deepgramResponse.ok) {
+        console.error("Deepgram error:", result);
+
+        response.status(deepgramResponse.status).json({
+          error: result.err_msg ?? "Deepgram could not transcribe the audio.",
         });
 
+        return;
+      }
+
+      const transcript =
+        result.results?.channels?.[0]?.alternatives?.[0]?.transcript?.trim();
+
+      if (!transcript) {
+        response.status(422).json({
+          error: "No speech was detected in the recording.",
+        });
+
+        return;
+      }
+
       response.json({
-        text: transcription.text,
+        text: transcript,
       });
     } catch (error: unknown) {
       next(error);
@@ -99,7 +132,5 @@ const errorHandler: ErrorRequestHandler = (
 app.use(errorHandler);
 
 app.listen(port, "0.0.0.0", () => {
-  console.log(
-    `Voice Todo server running on port ${port}`,
-  );
+  console.log(`Voice Todo server running on port ${port} using Deepgram`);
 });
