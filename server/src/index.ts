@@ -34,12 +34,12 @@ app.get("/health", (_request, response) => {
 
 type DeepgramResponse = {
   results?: {
-    channels?: Array<{
-      alternatives?: Array<{
+    channels?: {
+      alternatives?: {
         transcript?: string;
         confidence?: number;
-      }>;
-    }>;
+      }[];
+    }[];
   };
   err_code?: string;
   err_msg?: string;
@@ -72,7 +72,7 @@ app.post(
             Authorization: `Token ${apiKey}`,
             "Content-Type": request.file.mimetype || "audio/mp4",
           },
-          body: request.file.buffer,
+          body: request.file.buffer as unknown as BodyInit,
         },
       );
 
