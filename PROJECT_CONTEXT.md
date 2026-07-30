@@ -73,3 +73,15 @@ None recorded.
 ## Next Batch
 
 Batch 1 — Voice feasibility spike.
+
+## Completed
+
+- Voice recording works on a physical Android device
+- Mobile app uploads recorded M4A audio
+- Express backend receives the recording
+- Deepgram successfully transcribes speech
+- API key remains server-side
+
+## Next Batch
+
+Batch 3 — Task types, reducer, Context provider, and AsyncStorage persistence.
