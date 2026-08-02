@@ -1,3 +1,5 @@
+import { useTasks } from "../features/tasks/TaskContext";
+
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
   AudioModule,
@@ -24,6 +26,8 @@ export function TaskListScreen({ navigation }: Props) {
 
   const [transcription, setTranscription] = useState("");
   const [isTranscribing, setIsTranscribing] = useState(false);
+
+  const { state, storageError } = useTasks();
 
   useEffect(() => {
     async function configureAudio() {
@@ -202,6 +206,12 @@ export function TaskListScreen({ navigation }: Props) {
       >
         <Text style={styles.secondaryButtonText}>Open Add Task</Text>
       </Pressable>
+
+      <Text style={styles.status}>Saved tasks: {state.tasks.length}</Text>
+
+      {storageError ? (
+        <Text style={{ color: colors.danger }}>{storageError}</Text>
+      ) : null}
     </View>
   );
 }
