@@ -85,3 +85,34 @@ Batch 1 — Voice feasibility spike.
 ## Next Batch
 
 Batch 3 — Task types, reducer, Context provider, and AsyncStorage persistence.
+
+## Current Phase
+
+Batch 6 — Submission preparation
+
+## Completed
+
+- Manual task creation
+- Required-title validation
+- Optional descriptions
+- Complete and incomplete toggling
+- Task deletion
+- AsyncStorage persistence
+- Voice recording
+- Deepgram transcription
+- Natural-language task splitting
+- Multiple voice-created tasks
+- Loading, empty, success and error states
+
+## Current Verification
+
+- [ ] Mobile TypeScript passes
+- [ ] Mobile lint passes
+- [ ] Server TypeScript passes
+- [ ] Server build passes
+- [ ] Manual QA passes
+- [ ] Required screenshots captured
+
+## Next Step
+
+Complete README and final repository review.
