@@ -16,6 +16,7 @@ import { useTasks } from "../features/tasks/TaskContext";
 import type { Task } from "../features/tasks/taskTypes";
 import type { RootStackParamList } from "../navigation/navigationTypes";
 import { colors } from "../theme/colors";
+import { VoiceTaskFab } from "../features/voice/VoiceTaskFab";
 
 type Props = NativeStackScreenProps<RootStackParamList, "TaskList">;
 
@@ -142,6 +143,7 @@ export function TaskListScreen({ navigation }: Props) {
         style={({ pressed }) => [
           styles.addButton,
           {
+            right: 96,
             bottom: insets.bottom + 20,
           },
           pressed && styles.addButtonPressed,
@@ -149,6 +151,7 @@ export function TaskListScreen({ navigation }: Props) {
       >
         <Text style={styles.addButtonIcon}>+</Text>
       </Pressable>
+      <VoiceTaskFab bottom={insets.bottom + 20} />
     </View>
   );
 }
