@@ -1,5 +1,7 @@
+import { useTasks } from "../features/tasks/TaskContext";
+
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 
 import type { RootStackParamList } from "../navigation/navigationTypes";
 import { colors } from "../theme/colors";
@@ -7,6 +9,17 @@ import { colors } from "../theme/colors";
 type Props = NativeStackScreenProps<RootStackParamList, "AddTask">;
 
 export function AddTaskScreen({ navigation }: Props) {
+  const { addTask, state } = useTasks();
+
+  function addTestTask() {
+    const task = addTask({
+      title: `Test task ${state.tasks.length + 1}`,
+      description: "Created during persistence testing",
+    });
+
+    Alert.alert("Task added", task.title);
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Add Task Screen</Text>
@@ -23,6 +36,16 @@ export function AddTaskScreen({ navigation }: Props) {
           pressed && styles.buttonPressed,
         ]}
       >
+        <Pressable
+          accessibilityRole="button"
+          onPress={addTestTask}
+          style={({ pressed }) => [
+            styles.button,
+            pressed && styles.buttonPressed,
+          ]}
+        >
+          <Text style={styles.buttonText}>Add test task</Text>
+        </Pressable>
         <Text style={styles.buttonText}>Return to tasks</Text>
       </Pressable>
     </View>
