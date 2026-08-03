@@ -530,26 +530,51 @@ npm start
 
 ## Evaluation coverage
 
-| Requirement             | Implementation                     |
-| ----------------------- | ---------------------------------- |
-| Add tasks               | Add Task screen                    |
-| Required title          | Form validation and task factory   |
-| Optional description    | Description input and task card    |
-| Complete/incomplete     | Reversible checkbox control        |
-| Delete tasks            | Delete confirmation                |
-| View all tasks          | Task List screen using `FlatList`  |
-| Visual distinction      | Strikethrough and reduced emphasis |
-| Persistence             | AsyncStorage                       |
-| Two-screen navigation   | React Navigation native stack      |
-| Empty state             | Dedicated no-task interface        |
-| Voice FAB               | `VoiceTaskFab`                     |
-| Speech transcription    | Deepgram backend integration       |
-| Multiple dictated tasks | Transcript parser and `addTasks()` |
-| Screenshots             | `/screenshots` folder and README   |
-| TypeScript              | Strict TypeScript throughout       |
+| Requirement             | Implementation                               |
+| ----------------------- | -------------------------------------------- |
+| Add tasks               | Add Task screen                              |
+| Required title          | Form validation and task factory             |
+| Optional description    | Description input and task card              |
+| Complete/incomplete     | Reversible checkbox control                  |
+| Delete tasks            | Delete confirmation                          |
+| View all tasks          | Task List screen using `FlatList`            |
+| Visual distinction      | Strikethrough and reduced emphasis           |
+| Persistence             | AsyncStorage                                 |
+| Two-screen navigation   | React Navigation native stack                |
+| Empty state             | Dedicated no-task interface                  |
+| Voice FAB               | `VoiceTaskFab`                               |
+| Speech transcription    | Deepgram backend integration                 |
+| Multiple dictated tasks | Transcript parser and `addTasks()`           |
+| Screenshots             | `/screenshots` folder and README             |
+| TypeScript              | Strict TypeScript throughout                 |
+| Unit tests              | Jest tests for task, storage and voice logic |
 
 ---
+
+## Testing
+
+The project contains unit tests for the core task and voice-processing logic.
+
+Covered areas include:
+
+- Task creation and input normalization
+- Empty-title validation
+- Adding one or multiple tasks
+- Completing and reopening tasks
+- Task deletion
+- Transcript splitting
+- Duplicate voice-task removal
+- Voice-task limits
+- AsyncStorage serialization
+- Invalid stored-data handling
+
+Run all tests:
+
+```bash
+npm test
+
 
 ## Author
 
 Built as part of the AAIR Labs React Native Developer Exercise.
+```
